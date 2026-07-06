@@ -66,7 +66,17 @@
     margin-top: 8px;
   }
   header .sub { font-style: italic; color: var(--ruskea); margin-top: 12px; font-size: 1.02rem; }
-  .motto { font-style: italic; font-size: 0.92rem; color: var(--punainen); margin-top: 8px; font-weight: bold; }
+  .tapahtuma {
+    background: #fff8ea;
+    border: 1px solid var(--kulta);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+  .tapahtuma strong { color: var(--punainen); }
+  .motto { font-style: italic; font-size: 0.92rem; color: var(--punainen); margin-top: 12px; font-weight: bold; }
 
   .card {
     background: var(--kerma);
@@ -99,7 +109,7 @@
   }
 
   label { display: block; font-weight: bold; margin: 14px 0 6px; font-size: 0.95rem; }
-  input[type="text"], textarea {
+  input[type="text"] {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--line);
@@ -108,7 +118,6 @@
     font-size: 1rem;
     background: #fffdf7;
   }
-  textarea { resize: vertical; min-height: 54px; }
 
   .portions {
     display: grid;
@@ -152,31 +161,17 @@
     padding: 13px;
     border: none;
     border-radius: 10px;
-    background: var(--punainen);
-    color: var(--kerma);
     font-family: inherit;
     font-size: 1.05rem;
     font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
     cursor: pointer;
     transition: background .12s;
   }
-  .btn:hover { background: var(--punainen-t); }
-  .btn.ghost {
-    background: transparent;
-    color: var(--punainen);
-    border: 2px solid var(--punainen);
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-  .btn.ghost:hover { background: rgba(142,31,31,0.08); }
   .btn.mobilepay {
     background: #5a78ff;
     color: #fff;
     text-align: center;
     text-decoration: none;
-    text-transform: none;
     letter-spacing: 0.5px;
     font-size: 1.1rem;
     padding: 15px;
@@ -191,14 +186,6 @@
     line-height: 1.55;
   }
   .maksu-ohje strong { color: #3149c4; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
-  th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: #8a6f3f; }
-  td.num, th.num { text-align: right; }
-  .del { border: none; background: none; color: var(--punainen); cursor: pointer; font-size: 1rem; padding: 2px 6px; }
-  tfoot td { font-weight: bold; border-top: 2px solid var(--punainen); border-bottom: none; }
-  .empty { text-align: center; color: #9a8a72; font-style: italic; padding: 14px 0; }
 
   .note { font-size: 0.85rem; color: #7a6a55; margin-top: 12px; line-height: 1.5; }
   footer { text-align: center; color: var(--kulta-v); font-size: 0.8rem; margin-top: 8px; font-style: italic; }
@@ -218,6 +205,10 @@
     <h1>Lammin Sahti<br>-maistelu</h1>
     <span class="est">Panimo est. 1985</span>
     <div class="sub">Tilaa oma annoksesi &middot; 11 &euro; / litra &middot; annokset 1 dl &ndash; 1 l &middot; maksu vain MobilePaylla</div>
+    <div class="tapahtuma">
+      <strong>Lauantaina klo 10.30&ndash;12.00</strong><br>
+      Tilaisuuteen osallistuu 2 Lammin vanhaa sahdin tuntijaa ja juojaa!
+    </div>
     <div class="motto">&rdquo;Juolaan, vaan ei mahlottomasti!&rdquo;</div>
   </header>
 
@@ -240,29 +231,24 @@
   </div>
 
   <div class="card">
-    <h2>Tee tilaus</h2>
+    <h2>Valitse annoksesi</h2>
     <label for="nimi">Nimi</label>
     <input type="text" id="nimi" placeholder="Etunimi Sukunimi" autocomplete="name">
 
     <label>Annoskoko</label>
     <div class="portions" id="portions"></div>
 
-    <label for="viesti">Huomiot (valinnainen)</label>
-    <textarea id="viesti" placeholder="Esim. toiveet tai terveiset"></textarea>
-
     <div class="pricebar">
       <span id="valinta">Valitse annos</span>
       <strong id="hinta">&ndash;</strong>
     </div>
-
-    <button class="btn" onclick="lisaa()">Lisää tilaus</button>
   </div>
 
   <div class="card">
     <h2>Maksu &ndash; MobilePay</h2>
     <div class="maksu-ohje">
       Maksu <strong>vain MobilePaylla</strong> &ndash; käteistä ei oteta vastaan.
-      Kun olet lisännyt tilauksesi, maksa se heti alla olevasta napista.
+      Valitse annoksesi ja maksa se heti alla olevasta napista.
       <div id="maksuinfo" style="margin-top:10px;">
         <em>Valitse ensin annos, niin näet maksettavan summan tässä.</em>
       </div>
@@ -270,17 +256,9 @@
     <a class="btn mobilepay" id="mpnappi" href="https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in" target="_blank" rel="noopener">
       Maksa MobilePaylla &rarr;
     </a>
-  </div>
-
-  <div class="card">
-    <h2>Tilaukset</h2>
-    <div id="lista"></div>
-    <button class="btn ghost" onclick="kopioi()">Kopioi yhteenveto (esim. WhatsAppiin)</button>
-    <button class="btn ghost" onclick="tyhjenna()">Tyhjennä kaikki tilaukset</button>
     <div class="note">
-      Tilaukset tallentuvat tähän selaimeen automaattisesti. Sahti haetaan
-      Lammin Sahdin panimomyymälästä ennen maistelua &ndash; sahti on tuoretuote,
-      joka säilytetään kylmässä ja nautitaan tuoreena. K-18.
+      Sahti haetaan Lammin Sahdin panimomyymälästä ennen maistelua &ndash; sahti on
+      tuoretuote, joka säilytetään kylmässä ja nautitaan tuoreena. K-18.
     </div>
   </div>
 
@@ -292,17 +270,30 @@
 <script>
   var HINTA_PER_L = 11;
   var valittuDl = 0;
-  var tilaukset = [];
-
-  try { tilaukset = JSON.parse(localStorage.getItem('sahtitilaukset') || '[]'); } catch (e) {}
+  var nykyViesti = '';
+  var MP_BASE = 'https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
 
   function eur(x) { return x.toFixed(2).replace('.', ',') + ' €'; }
   function dlHinta(dl) { return dl / 10 * HINTA_PER_L; }
-
-  var MP_BASE = 'https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
-  var nykyViesti = '';
-
   function annosTeksti(dl) { return dl === 10 ? '1 l' : dl + ' dl'; }
+
+  function piirraNapit() {
+    var html = '';
+    for (var dl = 1; dl <= 10; dl++) {
+      html += '<button type="button" class="portion' + (dl === valittuDl ? ' sel' : '') + '" onclick="valitse(' + dl + ')">'
+            + '<span class="dl">' + annosTeksti(dl) + '</span>'
+            + '<span class="eur">' + eur(dlHinta(dl)) + '</span></button>';
+    }
+    document.getElementById('portions').innerHTML = html;
+  }
+
+  function valitse(dl) {
+    valittuDl = dl;
+    piirraNapit();
+    document.getElementById('valinta').textContent = 'Annos: ' + (dl === 10 ? '1 litra' : dl + ' dl');
+    document.getElementById('hinta').textContent = eur(dlHinta(dl));
+    paivitaMaksu(document.getElementById('nimi').value.trim(), dl);
+  }
 
   function paivitaMaksu(nimi, dl) {
     var info = document.getElementById('maksuinfo');
@@ -322,88 +313,6 @@
       + '<small>Viesti kopioituu leikepöydälle kun painat maksunappia &ndash; liitä se MobilePayn viestikenttään.</small>';
     nappi.href = MP_BASE + '?amount=' + Math.round(summa * 100) + '&comment=' + encodeURIComponent(viesti);
     nappi.innerHTML = 'Maksa ' + eur(summa) + ' MobilePaylla &rarr;';
-  }
-
-  function piirraNapit() {
-    var html = '';
-    for (var dl = 1; dl <= 10; dl++) {
-      html += '<button type="button" class="portion' + (dl === valittuDl ? ' sel' : '') + '" onclick="valitse(' + dl + ')">'
-            + '<span class="dl">' + (dl === 10 ? '1 l' : dl + ' dl') + '</span>'
-            + '<span class="eur">' + eur(dlHinta(dl)) + '</span></button>';
-    }
-    document.getElementById('portions').innerHTML = html;
-  }
-
-  function valitse(dl) {
-    valittuDl = dl;
-    piirraNapit();
-    document.getElementById('valinta').textContent = 'Annos: ' + (dl === 10 ? '1 litra' : dl + ' dl');
-    document.getElementById('hinta').textContent = eur(dlHinta(dl));
-    paivitaMaksu(document.getElementById('nimi').value.trim(), dl);
-  }
-
-  function lisaa() {
-    var nimi = document.getElementById('nimi').value.trim();
-    if (!nimi) { toast('Kirjoita nimi ensin'); return; }
-    if (!valittuDl) { toast('Valitse annoskoko'); return; }
-    tilaukset.push({ nimi: nimi, dl: valittuDl, viesti: document.getElementById('viesti').value.trim() });
-    talleta();
-    paivitaMaksu(nimi, valittuDl);
-    document.getElementById('nimi').value = '';
-    document.getElementById('viesti').value = '';
-    valittuDl = 0;
-    piirraNapit();
-    document.getElementById('valinta').textContent = 'Valitse annos';
-    document.getElementById('hinta').innerHTML = '&ndash;';
-    piirraLista();
-    toast('Tilaus lisätty – muista maksaa MobilePaylla!');
-  }
-
-  function poista(i) { tilaukset.splice(i, 1); talleta(); piirraLista(); }
-
-  function tyhjenna() {
-    if (tilaukset.length && confirm('Poistetaanko kaikki ' + tilaukset.length + ' tilausta?')) {
-      tilaukset = []; talleta(); piirraLista();
-    }
-  }
-
-  function talleta() { try { localStorage.setItem('sahtitilaukset', JSON.stringify(tilaukset)); } catch (e) {} }
-
-  function piirraLista() {
-    var el = document.getElementById('lista');
-    if (!tilaukset.length) { el.innerHTML = '<div class="empty">Ei tilauksia vielä &ndash; ole ensimmäinen!</div>'; return; }
-    var yhtDl = 0, yhtEur = 0;
-    var html = '<table><thead><tr><th>Nimi</th><th class="num">Annos</th><th class="num">Hinta</th><th></th></tr></thead><tbody>';
-    tilaukset.forEach(function (t, i) {
-      var h = dlHinta(t.dl);
-      yhtDl += t.dl; yhtEur += h;
-      html += '<tr><td>' + esc(t.nimi) + (t.viesti ? '<br><small style="color:#7a6a55">' + esc(t.viesti) + '</small>' : '') + '</td>'
-            + '<td class="num">' + (t.dl === 10 ? '1 l' : t.dl + ' dl') + '</td>'
-            + '<td class="num">' + eur(h) + '</td>'
-            + '<td class="num"><button class="del" onclick="poista(' + i + ')" title="Poista">✕</button></td></tr>';
-    });
-    html += '</tbody><tfoot><tr><td>Yhteensä (' + tilaukset.length + ' hlö)</td>'
-          + '<td class="num">' + (yhtDl / 10).toFixed(1).replace('.', ',') + ' l</td>'
-          + '<td class="num">' + eur(yhtEur) + '</td><td></td></tr></tfoot></table>';
-    el.innerHTML = html;
-  }
-
-  function kopioi() {
-    if (!tilaukset.length) { toast('Ei tilauksia kopioitavaksi'); return; }
-    var yhtDl = 0, yhtEur = 0;
-    var rivit = tilaukset.map(function (t) {
-      var h = dlHinta(t.dl); yhtDl += t.dl; yhtEur += h;
-      return '• ' + t.nimi + ': ' + (t.dl === 10 ? '1 l' : t.dl + ' dl') + ' = ' + eur(h) + (t.viesti ? ' (' + t.viesti + ')' : '');
-    });
-    var teksti = 'LAMMIN SAHTI -MAISTELU – tilaukset\n(11 €/l, maksu vain MobilePaylla)\n\n' + rivit.join('\n')
-      + '\n\nYhteensä: ' + (yhtDl / 10).toFixed(1).replace('.', ',') + ' litraa, ' + eur(yhtEur)
-      + '\nHlöitä: ' + tilaukset.length
-      + '\n\nMaksut MobilePay Boxiin (viestiin oma nimi):\nhttps://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(teksti).then(function () { toast('Yhteenveto kopioitu leikepöydälle'); });
-    } else {
-      window.prompt('Kopioi tästä (Ctrl+C):', teksti);
-    }
   }
 
   function esc(s) {
@@ -430,7 +339,7 @@
   });
 
   piirraNapit();
-  piirraLista();
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
