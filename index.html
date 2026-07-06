@@ -217,7 +217,7 @@
     <div class="passi">🐏</div>
     <h1>Lammin Sahti<br>-maistelu</h1>
     <span class="est">Panimo est. 1985</span>
-    <div class="sub">Tilaa oma annoksesi &middot; 10 &euro; / litra &middot; annokset 1 dl &ndash; 1 l &middot; maksu vain MobilePaylla</div>
+    <div class="sub">Tilaa oma annoksesi &middot; 11 &euro; / litra &middot; annokset 1 dl &ndash; 1 l &middot; maksu vain MobilePaylla</div>
     <div class="motto">&rdquo;Juolaan, vaan ei mahlottomasti!&rdquo;</div>
   </header>
 
@@ -290,7 +290,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  var HINTA_PER_L = 10;
+  var HINTA_PER_L = 11;
   var valittuDl = 0;
   var tilaukset = [];
 
@@ -392,7 +392,7 @@
       var h = dlHinta(t.dl); yhtDl += t.dl; yhtEur += h;
       return '• ' + t.nimi + ': ' + (t.dl === 10 ? '1 l' : t.dl + ' dl') + ' = ' + eur(h) + (t.viesti ? ' (' + t.viesti + ')' : '');
     });
-    var teksti = 'LAMMIN SAHTI -MAISTELU – tilaukset\n(10 €/l, maksu vain MobilePaylla)\n\n' + rivit.join('\n')
+    var teksti = 'LAMMIN SAHTI -MAISTELU – tilaukset\n(11 €/l, maksu vain MobilePaylla)\n\n' + rivit.join('\n')
       + '\n\nYhteensä: ' + (yhtDl / 10).toFixed(1).replace('.', ',') + ' litraa, ' + eur(yhtEur)
       + '\nHlöitä: ' + tilaukset.length
       + '\n\nMaksut MobilePay Boxiin (viestiin oma nimi):\nhttps://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
