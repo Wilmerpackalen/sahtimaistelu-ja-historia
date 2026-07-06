@@ -419,4 +419,18 @@
   }
 
   document.getElementById('nimi').addEventListener('input', function () {
-    if (valittuDl) 
+    if (valittuDl) paivitaMaksu(this.value.trim(), valittuDl);
+  });
+
+  document.getElementById('mpnappi').addEventListener('click', function () {
+    if (nykyViesti && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(nykyViesti);
+      toast('Viesti kopioitu – liitä se MobilePayn viestikenttään');
+    }
+  });
+
+  piirraNapit();
+  piirraLista();
+</script>
+</body>
+</html>
