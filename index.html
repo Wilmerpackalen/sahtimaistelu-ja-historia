@@ -300,6 +300,7 @@
   function dlHinta(dl) { return dl / 10 * HINTA_PER_L; }
 
   var MP_BASE = 'https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
+  var nykyViesti = '';
 
   function annosTeksti(dl) { return dl === 10 ? '1 l' : dl + ' dl'; }
 
@@ -307,6 +308,7 @@
     var info = document.getElementById('maksuinfo');
     var nappi = document.getElementById('mpnappi');
     if (!dl) {
+      nykyViesti = '';
       info.innerHTML = '<em>Valitse ensin annos, niin näet maksettavan summan tässä.</em>';
       nappi.href = MP_BASE;
       nappi.innerHTML = 'Maksa MobilePaylla &rarr;';
@@ -314,9 +316,10 @@
     }
     var summa = dlHinta(dl);
     var viesti = (nimi ? nimi + ', ' : '') + annosTeksti(dl);
+    nykyViesti = viesti;
     info.innerHTML = 'Maksettavaa: <strong>' + eur(summa) + '</strong><br>'
       + 'Kirjoita maksun viestiin: <strong>&rdquo;' + esc(viesti) + '&rdquo;</strong><br>'
-      + '<small>(Jos summa ei täyty MobilePayssa valmiiksi, syötä se itse.)</small>';
+      + '<small>Viesti kopioituu leikepöydälle kun painat maksunappia &ndash; liitä se MobilePayn viestikenttään.</small>';
     nappi.href = MP_BASE + '?amount=' + Math.round(summa * 100) + '&comment=' + encodeURIComponent(viesti);
     nappi.innerHTML = 'Maksa ' + eur(summa) + ' MobilePaylla &rarr;';
   }
@@ -416,11 +419,4 @@
   }
 
   document.getElementById('nimi').addEventListener('input', function () {
-    if (valittuDl) paivitaMaksu(this.value.trim(), valittuDl);
-  });
-
-  piirraNapit();
-  piirraLista();
-</script>
-</body>
-</html>
+    if (valittuDl) 
