@@ -1,1 +1,426 @@
-Redirecting...
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lammin Sahti -maistelu · Tilausformssi</title>
+<style>
+  :root {
+    --punainen: #8e1f1f;      /* tumma sahtipunainen */
+    --punainen-t: #6b1515;
+    --kulta: #c9942a;
+    --kulta-v: #e5b95c;
+    --kerma: #f6edd9;
+    --tummapuu: #2b1a12;
+    --ruskea: #3d2b1f;
+    --line: #d9c8a6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background:
+      radial-gradient(ellipse at top, rgba(201,148,42,0.12), transparent 60%),
+      repeating-linear-gradient(90deg, #2b1a12 0px, #332015 60px, #2b1a12 120px);
+    color: var(--ruskea);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 660px; margin: 0 auto; }
+
+  /* ---- Etiketti-tyylinen otsake ---- */
+  header {
+    background: var(--kerma);
+    border: 3px double var(--punainen);
+    border-radius: 14px;
+    text-align: center;
+    padding: 26px 20px 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    position: relative;
+  }
+  header::before, header::after {
+    content: "";
+    position: absolute;
+    left: 8px; right: 8px;
+    border-top: 1px solid var(--kulta);
+  }
+  header::before { top: 8px; }
+  header::after { bottom: 8px; }
+  .passi { font-size: 2.6rem; line-height: 1; }
+  header h1 {
+    font-size: 2rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--punainen);
+    margin-top: 6px;
+  }
+  .est {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--kulta);
+    text-transform: uppercase;
+    border-top: 1px solid var(--kulta);
+    border-bottom: 1px solid var(--kulta);
+    padding: 3px 14px;
+    margin-top: 8px;
+  }
+  header .sub { font-style: italic; color: var(--ruskea); margin-top: 12px; font-size: 1.02rem; }
+  .motto { font-style: italic; font-size: 0.92rem; color: var(--punainen); margin-top: 8px; font-weight: bold; }
+
+  .card {
+    background: var(--kerma);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  }
+  .card h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--punainen);
+    margin-bottom: 14px;
+    border-bottom: 2px solid var(--kulta);
+    padding-bottom: 8px;
+  }
+
+  /* ---- Tarina ---- */
+  .tarina p { line-height: 1.65; margin-bottom: 12px; font-size: 0.98rem; }
+  .tarina .korostus { color: var(--punainen); font-weight: bold; }
+  .maku {
+    background: #fff8ea;
+    border-left: 4px solid var(--kulta);
+    padding: 12px 16px;
+    font-style: italic;
+    margin-top: 4px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  label { display: block; font-weight: bold; margin: 14px 0 6px; font-size: 0.95rem; }
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background: #fffdf7;
+  }
+  textarea { resize: vertical; min-height: 54px; }
+
+  .portions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .portion {
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: #fffdf7;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .12s;
+  }
+  .portion .dl { font-weight: bold; font-size: 1.05rem; display: block; color: var(--ruskea); }
+  .portion .eur { font-size: 0.8rem; color: var(--punainen); }
+  .portion:hover { border-color: var(--kulta); }
+  .portion.sel { background: var(--punainen); border-color: var(--punainen-t); }
+  .portion.sel .dl, .portion.sel .eur { color: var(--kerma); }
+
+  .pricebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff8ea;
+    border: 1px dashed var(--kulta);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 18px;
+    font-size: 1.05rem;
+  }
+  .pricebar strong { font-size: 1.4rem; color: var(--punainen); }
+
+  .btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: var(--punainen);
+    color: var(--kerma);
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .btn:hover { background: var(--punainen-t); }
+  .btn.ghost {
+    background: transparent;
+    color: var(--punainen);
+    border: 2px solid var(--punainen);
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  .btn.ghost:hover { background: rgba(142,31,31,0.08); }
+  .btn.mobilepay {
+    background: #5a78ff;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+  .btn.mobilepay:hover { background: #4560e6; }
+  .maksu-ohje {
+    background: #eef1ff;
+    border: 1px solid #5a78ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .maksu-ohje strong { color: #3149c4; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: #8a6f3f; }
+  td.num, th.num { text-align: right; }
+  .del { border: none; background: none; color: var(--punainen); cursor: pointer; font-size: 1rem; padding: 2px 6px; }
+  tfoot td { font-weight: bold; border-top: 2px solid var(--punainen); border-bottom: none; }
+  .empty { text-align: center; color: #9a8a72; font-style: italic; padding: 14px 0; }
+
+  .note { font-size: 0.85rem; color: #7a6a55; margin-top: 12px; line-height: 1.5; }
+  footer { text-align: center; color: var(--kulta-v); font-size: 0.8rem; margin-top: 8px; font-style: italic; }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--tummapuu); color: var(--kerma); padding: 10px 22px;
+    border: 1px solid var(--kulta); border-radius: 20px; font-size: 0.9rem;
+    opacity: 0; transition: opacity .3s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="passi">🐏</div>
+    <h1>Lammin Sahti<br>-maistelu</h1>
+    <span class="est">Panimo est. 1985</span>
+    <div class="sub">Tilaa oma annoksesi &middot; 10 &euro; / litra &middot; annokset 1 dl &ndash; 1 l &middot; maksu vain MobilePaylla</div>
+    <div class="motto">&rdquo;Juolaan, vaan ei mahlottomasti!&rdquo;</div>
+  </header>
+
+  <div class="card tarina">
+    <h2>Sahdin tarina</h2>
+    <p><span class="korostus">Sahti on Suomen kansallisjuoma</span> ja yksi maailman
+    vanhimmista yhä valmistettavista oluttyypeistä &ndash; talonpoikaisoluen perinne
+    ulottuu keskiajalle asti. Sahti valmistetaan ohra- ja ruismaltaista, siivilöidään
+    perinteisesti katajanoksien läpi eikä sitä suodateta tai pastöroida. Siksi se on
+    sameaa, tuoretta ja täynnä makua.</p>
+    <p><span class="korostus">Lammin Sahti Oy</span> on Suomen vanhin edelleen
+    toiminnassa oleva pienpanimo, perustettu vuonna 1985 Lammilla. Nykyään panimo
+    toimii Tuuloksessa, jossa sen oma myymälä palvelee Kauppakeskus Tuulosessa.
+    Sahdin rinnalla panimo valmistaa oluita ja tislaa sahdista jopa kansainvälisesti
+    palkittua viskiä. Lammin Sahti on saanut EU:n aidon perinteisen tuotteen
+    (APT) suojauksen &ndash; samaa luokkaa kuin parmankinkku.</p>
+    <div class="maku">Lasissa: ruskea, täyteläinen ja samea &ndash; maussa hedelmäisyyttä,
+    banaania, ruisleipämäisyyttä ja hentoa savuisuutta. Vahvuus 7,5&nbsp;%.
+    Tarjoillaan viileänä, noin 12&nbsp;&deg;C.</div>
+  </div>
+
+  <div class="card">
+    <h2>Tee tilaus</h2>
+    <label for="nimi">Nimi</label>
+    <input type="text" id="nimi" placeholder="Etunimi Sukunimi" autocomplete="name">
+
+    <label>Annoskoko</label>
+    <div class="portions" id="portions"></div>
+
+    <label for="viesti">Huomiot (valinnainen)</label>
+    <textarea id="viesti" placeholder="Esim. toiveet tai terveiset"></textarea>
+
+    <div class="pricebar">
+      <span id="valinta">Valitse annos</span>
+      <strong id="hinta">&ndash;</strong>
+    </div>
+
+    <button class="btn" onclick="lisaa()">Lisää tilaus</button>
+  </div>
+
+  <div class="card">
+    <h2>Maksu &ndash; MobilePay</h2>
+    <div class="maksu-ohje">
+      Maksu <strong>vain MobilePaylla</strong> &ndash; käteistä ei oteta vastaan.
+      Kun olet lisännyt tilauksesi, maksa se heti alla olevasta napista.
+      <div id="maksuinfo" style="margin-top:10px;">
+        <em>Valitse ensin annos, niin näet maksettavan summan tässä.</em>
+      </div>
+    </div>
+    <a class="btn mobilepay" id="mpnappi" href="https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in" target="_blank" rel="noopener">
+      Maksa MobilePaylla &rarr;
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>Tilaukset</h2>
+    <div id="lista"></div>
+    <button class="btn ghost" onclick="kopioi()">Kopioi yhteenveto (esim. WhatsAppiin)</button>
+    <button class="btn ghost" onclick="tyhjenna()">Tyhjennä kaikki tilaukset</button>
+    <div class="note">
+      Tilaukset tallentuvat tähän selaimeen automaattisesti. Sahti haetaan
+      Lammin Sahdin panimomyymälästä ennen maistelua &ndash; sahti on tuoretuote,
+      joka säilytetään kylmässä ja nautitaan tuoreena. K-18.
+    </div>
+  </div>
+
+  <footer>Lammin Sahti -maistelu &middot; epävirallinen tilauslomake &middot; sahti.fi</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  var HINTA_PER_L = 10;
+  var valittuDl = 0;
+  var tilaukset = [];
+
+  try { tilaukset = JSON.parse(localStorage.getItem('sahtitilaukset') || '[]'); } catch (e) {}
+
+  function eur(x) { return x.toFixed(2).replace('.', ',') + ' €'; }
+  function dlHinta(dl) { return dl / 10 * HINTA_PER_L; }
+
+  var MP_BASE = 'https://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
+
+  function annosTeksti(dl) { return dl === 10 ? '1 l' : dl + ' dl'; }
+
+  function paivitaMaksu(nimi, dl) {
+    var info = document.getElementById('maksuinfo');
+    var nappi = document.getElementById('mpnappi');
+    if (!dl) {
+      info.innerHTML = '<em>Valitse ensin annos, niin näet maksettavan summan tässä.</em>';
+      nappi.href = MP_BASE;
+      nappi.innerHTML = 'Maksa MobilePaylla &rarr;';
+      return;
+    }
+    var summa = dlHinta(dl);
+    var viesti = (nimi ? nimi + ', ' : '') + annosTeksti(dl);
+    info.innerHTML = 'Maksettavaa: <strong>' + eur(summa) + '</strong><br>'
+      + 'Kirjoita maksun viestiin: <strong>&rdquo;' + esc(viesti) + '&rdquo;</strong><br>'
+      + '<small>(Jos summa ei täyty MobilePayssa valmiiksi, syötä se itse.)</small>';
+    nappi.href = MP_BASE + '?amount=' + Math.round(summa * 100) + '&comment=' + encodeURIComponent(viesti);
+    nappi.innerHTML = 'Maksa ' + eur(summa) + ' MobilePaylla &rarr;';
+  }
+
+  function piirraNapit() {
+    var html = '';
+    for (var dl = 1; dl <= 10; dl++) {
+      html += '<button type="button" class="portion' + (dl === valittuDl ? ' sel' : '') + '" onclick="valitse(' + dl + ')">'
+            + '<span class="dl">' + (dl === 10 ? '1 l' : dl + ' dl') + '</span>'
+            + '<span class="eur">' + eur(dlHinta(dl)) + '</span></button>';
+    }
+    document.getElementById('portions').innerHTML = html;
+  }
+
+  function valitse(dl) {
+    valittuDl = dl;
+    piirraNapit();
+    document.getElementById('valinta').textContent = 'Annos: ' + (dl === 10 ? '1 litra' : dl + ' dl');
+    document.getElementById('hinta').textContent = eur(dlHinta(dl));
+    paivitaMaksu(document.getElementById('nimi').value.trim(), dl);
+  }
+
+  function lisaa() {
+    var nimi = document.getElementById('nimi').value.trim();
+    if (!nimi) { toast('Kirjoita nimi ensin'); return; }
+    if (!valittuDl) { toast('Valitse annoskoko'); return; }
+    tilaukset.push({ nimi: nimi, dl: valittuDl, viesti: document.getElementById('viesti').value.trim() });
+    talleta();
+    paivitaMaksu(nimi, valittuDl);
+    document.getElementById('nimi').value = '';
+    document.getElementById('viesti').value = '';
+    valittuDl = 0;
+    piirraNapit();
+    document.getElementById('valinta').textContent = 'Valitse annos';
+    document.getElementById('hinta').innerHTML = '&ndash;';
+    piirraLista();
+    toast('Tilaus lisätty – muista maksaa MobilePaylla!');
+  }
+
+  function poista(i) { tilaukset.splice(i, 1); talleta(); piirraLista(); }
+
+  function tyhjenna() {
+    if (tilaukset.length && confirm('Poistetaanko kaikki ' + tilaukset.length + ' tilausta?')) {
+      tilaukset = []; talleta(); piirraLista();
+    }
+  }
+
+  function talleta() { try { localStorage.setItem('sahtitilaukset', JSON.stringify(tilaukset)); } catch (e) {} }
+
+  function piirraLista() {
+    var el = document.getElementById('lista');
+    if (!tilaukset.length) { el.innerHTML = '<div class="empty">Ei tilauksia vielä &ndash; ole ensimmäinen!</div>'; return; }
+    var yhtDl = 0, yhtEur = 0;
+    var html = '<table><thead><tr><th>Nimi</th><th class="num">Annos</th><th class="num">Hinta</th><th></th></tr></thead><tbody>';
+    tilaukset.forEach(function (t, i) {
+      var h = dlHinta(t.dl);
+      yhtDl += t.dl; yhtEur += h;
+      html += '<tr><td>' + esc(t.nimi) + (t.viesti ? '<br><small style="color:#7a6a55">' + esc(t.viesti) + '</small>' : '') + '</td>'
+            + '<td class="num">' + (t.dl === 10 ? '1 l' : t.dl + ' dl') + '</td>'
+            + '<td class="num">' + eur(h) + '</td>'
+            + '<td class="num"><button class="del" onclick="poista(' + i + ')" title="Poista">✕</button></td></tr>';
+    });
+    html += '</tbody><tfoot><tr><td>Yhteensä (' + tilaukset.length + ' hlö)</td>'
+          + '<td class="num">' + (yhtDl / 10).toFixed(1).replace('.', ',') + ' l</td>'
+          + '<td class="num">' + eur(yhtEur) + '</td><td></td></tr></tfoot></table>';
+    el.innerHTML = html;
+  }
+
+  function kopioi() {
+    if (!tilaukset.length) { toast('Ei tilauksia kopioitavaksi'); return; }
+    var yhtDl = 0, yhtEur = 0;
+    var rivit = tilaukset.map(function (t) {
+      var h = dlHinta(t.dl); yhtDl += t.dl; yhtEur += h;
+      return '• ' + t.nimi + ': ' + (t.dl === 10 ? '1 l' : t.dl + ' dl') + ' = ' + eur(h) + (t.viesti ? ' (' + t.viesti + ')' : '');
+    });
+    var teksti = 'LAMMIN SAHTI -MAISTELU – tilaukset\n(10 €/l, maksu vain MobilePaylla)\n\n' + rivit.join('\n')
+      + '\n\nYhteensä: ' + (yhtDl / 10).toFixed(1).replace('.', ',') + ' litraa, ' + eur(yhtEur)
+      + '\nHlöitä: ' + tilaukset.length
+      + '\n\nMaksut MobilePay Boxiin (viestiin oma nimi):\nhttps://qr.mobilepay.fi/box/4b8d9af0-9603-4b5d-abc3-0ae854264a97/pay-in';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(teksti).then(function () { toast('Yhteenveto kopioitu leikepöydälle'); });
+    } else {
+      window.prompt('Kopioi tästä (Ctrl+C):', teksti);
+    }
+  }
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  document.getElementById('nimi').addEventListener('input', function () {
+    if (valittuDl) paivitaMaksu(this.value.trim(), valittuDl);
+  });
+
+  piirraNapit();
+  piirraLista();
+</script>
+</body>
+</html>
